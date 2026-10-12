@@ -17,7 +17,6 @@ API REST de e-commerce desenvolvida com Spring Boot. O sistema gerencia clientes
 
 <img width="869" height="382" alt="Loja-pix-IA" src="https://github.com/user-attachments/assets/e12231d2-65bc-47cf-b67a-7d2abff41be5" />
 
-```
 
 - `Pessoa` é uma classe abstrata (herança `JOINED`) da qual herdam `Cliente` e `Funcionario`.
 - Uma `Transacao` referencia o cliente, o funcionário que realizou a venda, os itens e o pagamento.
