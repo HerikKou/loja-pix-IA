@@ -5,7 +5,7 @@ API REST de e-commerce desenvolvida com Spring Boot. O sistema gerencia clientes
 ## Funcionalidades
 
 - Cadastro e login de clientes e funcionários, com autenticação JWT
-- Perfis de acesso: `CLIENTE`, `VENDEDOR` e `GERENTE`
+- Perfis de acesso: `VENDEDOR` e `GERENTE`
 - Cadastro e listagem de produtos, com controle de estoque
 - Registro de transações (vendas) com itens, que baixam o estoque automaticamente
 - Pagamento via PIX com QR Code, integrado ao Mercado Pago
