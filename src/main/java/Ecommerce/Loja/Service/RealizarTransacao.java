@@ -51,7 +51,7 @@ String email = authentication.getName();
 
     Cliente cliente = BuscarClientePorId(transacaoRequest.getClienteId());
       
-    Funcionario funcionario = BuscarFuncionarioPorId(transacaoRequest.getFuncionarioId());
+    Funcionario funcionario = BuscarFuncionarioPorId(email);
 
     Transacao transacao = SetarPropriedades(cliente, funcionario);
     List<ItemProduto> itens = processarItensTransacao(transacaoRequest, transacao);
@@ -185,8 +185,8 @@ private TransacaoResponseDTO criarTransacaoDTO(Long transacaoId, LocalDateTime d
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o ID: " + clienteId));
     }
 
-    private Funcionario BuscarFuncionarioPorId(Long funcionarioId) {
-        return funcionarioRepository.findById(funcionarioId)
+    private Funcionario BuscarFuncionarioPorId(String email) {
+        return funcionarioRepository.findById(email)
                 .orElseThrow(() -> new RuntimeException("Funcionario não encontrado com o ID: " + funcionarioId));
     }
     private  Transacao BuscarTransacao(Long transacaoId){
