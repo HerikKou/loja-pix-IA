@@ -15,5 +15,5 @@ public interface TransacaoRepository  extends JpaRepository<Transacao, Long> {
     @Query("SELECT p.nome, SUM(i.quantidade) FROM ItemProduto i JOIN i.produto p " +
        "WHERE i.transacao.dataHora BETWEEN :inicio AND :fim GROUP BY p.nome")
 List<Object[]> resumoVendasDoDia(LocalDateTime inicio, LocalDateTime fim);
-   Optional<Transacao> findByEmail(String email);
+
 }
