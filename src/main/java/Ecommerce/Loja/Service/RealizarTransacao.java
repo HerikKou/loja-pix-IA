@@ -186,7 +186,7 @@ private TransacaoResponseDTO criarTransacaoDTO(Long transacaoId, LocalDateTime d
     }
 
     private Funcionario BuscarFuncionarioPorId(String email) {
-        return funcionarioRepository.findByEmail(email)(email)
+        return funcionarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Funcionario não encontrado com o ID: " + funcionarioId));
     }
     private  Transacao BuscarTransacao(Long transacaoId){
