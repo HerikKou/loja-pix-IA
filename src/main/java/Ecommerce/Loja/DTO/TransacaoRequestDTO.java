@@ -6,7 +6,7 @@ import java.util.List;
 public class TransacaoRequestDTO {
 
     private Long clienteId;
-    private Long funcionarioId;
+
     private List<ItemProdutoRequestDTO> itens;
 
     public TransacaoRequestDTO() {
