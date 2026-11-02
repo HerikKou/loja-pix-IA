@@ -63,7 +63,7 @@ String email = authentication.getName();
     transacao.setValor(valorTotal);
 
     Transacao transacaoSalva = transacaoRepository.save(transacao);
-    BigDecimal subtotal = calcularSubTotal(itens);
+    
     
      List<ItemProdutoResponseDTO> itensResponse = criarItensResponse(itens);
     Long pagamentoId = (transacaoSalva.getPagamento() != null) ? transacaoSalva.getPagamento().getId() : null;
