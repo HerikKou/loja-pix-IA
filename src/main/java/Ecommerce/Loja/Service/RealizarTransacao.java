@@ -1,5 +1,5 @@
 package Ecommerce.Loja.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,7 +42,7 @@ public class RealizarTransacao {
         this.produtoRepository = produtoRepository;
         this.pagamentoRepository = pagamentoRepository;
     }
-
+     @Transactional
     public TransacaoResponseDTO realizarTransacao(TransacaoRequestDTO transacaoRequest) {
          Authentication authentication =
     SecurityContextHolder.getContext().getAuthentication();
