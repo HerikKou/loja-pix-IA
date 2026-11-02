@@ -7,7 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.UrlHandlerFilter.Builder.TrailingSlashSpec;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import Ecommerce.Loja.Config.JwtAuthFilter;
 import Ecommerce.Loja.DTO.ItemProdutoResponseDTO;
 import Ecommerce.Loja.DTO.PagamentoRequestDTO;
