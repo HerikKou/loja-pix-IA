@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/cadastrarCliente", "/api/loginCliente").permitAll()
                 .requestMatchers("/api/loginFuncionario").permitAll()
                 .requestMatchers(HttpMethod.POST,"/api/cadastrarFuncionario").hasRole("GERENTE")
-
+                .requestMatchers("/api/batch/executar").hasRole("GERENTE")
                 .requestMatchers("/api/cadastrarProduto**").hasAnyRole("VENDEDOR", "GERENTE")
                 
                 .requestMatchers("/api/realizarTransacao").hasAnyRole("VENDEDOR", "GERENTE")
