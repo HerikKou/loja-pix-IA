@@ -43,6 +43,11 @@ public class RealizarTransacao {
     }
 
     public TransacaoResponseDTO realizarTransacao(TransacaoRequestDTO transacaoRequest) {
+         Authentication authentication =
+    SecurityContextHolder.getContext().getAuthentication();
+
+String email = authentication.getName();
+
     Cliente cliente = BuscarClientePorId(transacaoRequest.getClienteId());
       
     Funcionario funcionario = BuscarFuncionarioPorId(transacaoRequest.getFuncionarioId());
