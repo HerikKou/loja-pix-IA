@@ -2,11 +2,17 @@ package Ecommerce.Loja.Controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import Ecommerce.Loja.DTO.*;
@@ -16,13 +22,15 @@ import Ecommerce.Loja.Service.ProdutoService;
 import Ecommerce.Loja.Service.RealizarTransacao;
 import Ecommerce.Loja.Service.ServiceLoja;
 import Ecommerce.Loja.Service.WebhookService;
-import org.springframework.web.bind.annotation.RequestBody;
+import Ecommerce.Loja.Service.WebhookSignatureService;
+
+
 
 @RestController 
 @RequestMapping("/api")
 public class ControllerLoja {
     
-
+    private final WebhookSignatureService webhookSignatureService;
     private final RealizarTransacao transacaoService;
     private final ServiceLoja serviceLoja;
     private final PagamentoGatewayService pagamentoGateway;
@@ -31,13 +39,14 @@ public class ControllerLoja {
    private final WebhookService webhookService;
     public ControllerLoja(RealizarTransacao transacaoService, ServiceLoja serviceLoja,
             PagamentoGatewayService pagamentoGateway, NotificacaoService notificacaoService,
-            ProdutoService produtoService, WebhookService webhookService) {
+            ProdutoService produtoService, WebhookService webhookService, WebhookSignatureService webhookSignatureService) {
         this.transacaoService = transacaoService;
         this.serviceLoja = serviceLoja;
         this.pagamentoGateway = pagamentoGateway;
         this.notificacaoService = notificacaoService;
         this.produtoService = produtoService;
         this.webhookService = webhookService;
+        this.webhookSignatureService = webhookSignatureService;
     }
     @PostMapping("/cadastrarCliente")
     public ResponseEntity<CadastroClienteResponse> cadastrarCliente(@RequestBody CadastroClienteRequest request) {
@@ -93,8 +102,29 @@ public ResponseEntity<List<CadastrarProdutoResponse>> listarProdutoss() {
 }
 
 @PostMapping("/webhooks/mercadopago")
-public ResponseEntity<Void> receberNotificacao(@RequestBody WebhookPayload payload) {
+public ResponseEntity<Void> receberNotificacao(
+        @RequestBody WebhookPayload payload,
+        @RequestHeader("x-signature") String xSignature,
+        @RequestHeader("x-request-id") String xRequestId,
+        @RequestParam("data.id") String dataId) {
+
+    boolean assinaturaValida =
+            webhookSignatureService.validarAssinatura(
+                    xSignature, xRequestId, dataId
+            );
+
+    if (!assinaturaValida) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    if (payload.getData() == null ||
+        payload.getData().getId() == null ||
+        !dataId.equalsIgnoreCase(payload.getData().getId())) {
+        return ResponseEntity.badRequest().build();
+    }
+
     webhookService.processarNotificacao(payload);
+
     return ResponseEntity.ok().build();
 }
 }

@@ -12,9 +12,9 @@ public class TransacaoRequestDTO {
     public TransacaoRequestDTO() {
     }
 
-    public TransacaoRequestDTO(Long clienteId, Long funcionarioId, List<ItemProdutoRequestDTO> itens) {
+    public TransacaoRequestDTO(Long clienteId, List<ItemProdutoRequestDTO> itens) {
         this.clienteId = clienteId;
-        this.funcionarioId = funcionarioId;
+       
         this.itens = itens;
     }
 
@@ -24,12 +24,7 @@ public class TransacaoRequestDTO {
     public void setClienteId(Long clienteId) {
         this.clienteId = clienteId;
     }
-    public Long getFuncionarioId() {
-        return funcionarioId;
-    }
-    public void setFuncionarioId(Long funcionarioId) {
-        this.funcionarioId = funcionarioId;
-    }
+    
     public List<ItemProdutoRequestDTO> getItens() {
         return itens;
     }
