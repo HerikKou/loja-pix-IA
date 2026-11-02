@@ -105,6 +105,10 @@ Pagamento pagamentoSalvo = pagamentoRepository.save(pagamento);
 
 
 private List<ItemProduto> processarItensTransacao(TransacaoRequestDTO transacaoRequest, Transacao transacao) {
+     if (transacaoRequest.getItens() == null ||
+    transacaoRequest.getItens().isEmpty()) {
+    throw new IllegalArgumentException("A transação precisa ter pelo menos um item.");
+}
     return transacaoRequest.getItens().stream().map(itemDTO -> {
         Produto produto = produtoRepository.findById(itemDTO.getProdutoId())
             .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
