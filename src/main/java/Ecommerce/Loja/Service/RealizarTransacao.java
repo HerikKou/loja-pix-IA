@@ -51,7 +51,7 @@ String email = authentication.getName();
 
     Cliente cliente = BuscarClientePorId(transacaoRequest.getClienteId());
       
-    Funcionario funcionario = buscarFuncionarioPorEmail((email);
+    Funcionario funcionario = buscarFuncionarioPorEmail(email);
 
     Transacao transacao = SetarPropriedades(cliente, funcionario);
     List<ItemProduto> itens = processarItensTransacao(transacaoRequest, transacao);
