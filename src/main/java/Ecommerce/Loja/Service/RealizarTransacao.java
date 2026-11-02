@@ -103,6 +103,9 @@ private List<ItemProduto> processarItensTransacao(TransacaoRequestDTO transacaoR
         Produto produto = produtoRepository.findById(itemDTO.getProdutoId())
             .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
+          if (produto.getQuantidadeEstoque() == null || produto.getQuantidadeEstoque() < 0) {
+            throw new RuntimeException(  "A quantidade deve ser maior que zero.");
+        }
         
         if (produto.getQuantidadeEstoque() < itemDTO.getQuantidade()) {
             throw new RuntimeException("Estoque insuficiente para o produto: " + produto.getNome());
