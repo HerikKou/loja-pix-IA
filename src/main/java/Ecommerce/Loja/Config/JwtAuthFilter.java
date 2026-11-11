@@ -24,7 +24,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     public JwtAuthFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
-
+       @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return request.getServletPath().equals("/api/loginFuncionario")
+                || request.getServletPath().equals("/api/loginCliente");
+    }
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,

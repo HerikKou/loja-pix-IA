@@ -96,16 +96,29 @@ public class TransformarEmEntidade {
         produto.setQuantidadeEstoque(produtoAtualizado.getQuantidadeEstoque());
         return produtoRepository.save(produto);
     }
-    public Funcionario loginFuncionario(LoginFuncionarioRequest request) {
-        Funcionario funcionario = funcionarioRepository.findByEmail(request.getEmail().toLowerCase())
-                .orElseThrow(() -> new RuntimeException("Funcionario não encontrado com o email: " + request.getEmail()));
-                
-        if (!passwordEncoder.matches(request.getSenha(), funcionario.getSenha())) {
-            throw new RuntimeException("Senha incorreta para o email: " + request.getEmail());
-        }
-        
-        return funcionario;
+   public Funcionario loginFuncionario(LoginFuncionarioRequest request) {
+
+    System.out.println("1 - Entrou no método de login");
+
+    Funcionario funcionario = funcionarioRepository
+            .findByEmail(request.getEmail().trim().toLowerCase())
+            .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
+
+    System.out.println("2 - Funcionário encontrado: " + funcionario.getEmail());
+
+    boolean senhaCorreta = passwordEncoder.matches(
+            request.getSenha(),
+            funcionario.getSenha()
+    );
+
+    System.out.println("3 - Senha corresponde: " + senhaCorreta);
+
+    if (!senhaCorreta) {
+        throw new RuntimeException("Senha incorreta");
     }
+
+    return funcionario;
+}
     public Cliente loginCliente(LoginClienteResquest request) {
         Cliente cliente = clienteRepository.findByEmail(request.getEmail().toLowerCase())
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o email: " + request.getEmail()));

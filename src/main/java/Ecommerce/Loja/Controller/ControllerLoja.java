@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import Ecommerce.Loja.DTO.*;
 import Ecommerce.Loja.Service.NotificacaoService;
 import Ecommerce.Loja.Service.PagamentoGatewayService;
@@ -36,6 +37,7 @@ public class ControllerLoja {
     private final PagamentoGatewayService pagamentoGateway;
     private final NotificacaoService notificacaoService;
     private  final ProdutoService produtoService;
+    private Logger logger = LoggerFactory.getLogger(ControllerLoja.class);
    private final WebhookService webhookService;
     public ControllerLoja(RealizarTransacao transacaoService, ServiceLoja serviceLoja,
             PagamentoGatewayService pagamentoGateway, NotificacaoService notificacaoService,
@@ -107,12 +109,15 @@ public ResponseEntity<Void> receberNotificacao(
         @RequestHeader("x-signature") String xSignature,
         @RequestHeader("x-request-id") String xRequestId,
         @RequestParam("data.id") String dataId) {
-
+            logger.info("WEBHOOK RECEBIDO");
+            logger.info("Assinatura: " + xSignature);
+            logger.info("Request ID: " + xRequestId);
+            logger.info("Data ID: " + dataId);
     boolean assinaturaValida =
             webhookSignatureService.validarAssinatura(
                     xSignature, xRequestId, dataId
             );
-
+            logger.info("Assinatura válida: " + assinaturaValida);
     if (!assinaturaValida) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
