@@ -37,7 +37,7 @@ public class WebhookSignatureService {
             String assinaturaRecebida = null;
 
             for (String parte : xSignature.split(",")) {
-                String[] campo = parte.trim().split("=", 2);
+                String[] campo = separarCampo(parte);
 
                 if (campo.length != 2) {
                     continue;
@@ -97,4 +97,8 @@ public class WebhookSignatureService {
             return false;
         }
     }
+    private String[] separarCampo(String parte) {
+    return parte.trim().split("=", 2);
+}
+    
 }
